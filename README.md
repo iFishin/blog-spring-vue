@@ -2,4 +2,4 @@
 
 # Created on 23.6.22
 
-![](.\.images\banner.png)
+![banner](./.images/banner.png)
