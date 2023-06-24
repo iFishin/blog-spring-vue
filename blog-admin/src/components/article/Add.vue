@@ -1,3 +1,10 @@
+<!--
+ * @Date: 2023-06-23 17:22:17
+ * @LastEditors: Fishing yoo725@hotmail.com
+ * @LastEditTime: 2023-06-24 21:32:53
+ * @FilePath: \blog-admin\src\components\article\Add.vue
+ * @Description: https://github.com/iFishin
+-->
 <template>
   <div>
     <!-- 面包屑导航 -->
@@ -19,7 +26,8 @@
           <el-input v-model="addForm.tag_id"></el-input>
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <quill-editor v-model="addForm.content"></quill-editor>
+          <textarea v-model="addForm.content"></textarea>
+          <div v-html="$options.filters.markdown(addForm.content)"></div>
         </el-form-item>
       </el-form>
       <el-button type="primary" @click="addArticle">确 定</el-button>
@@ -28,8 +36,10 @@
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown';
+
 export default {
-  data () {
+  data() {
     return {
       addForm: {
         headline: '',
@@ -53,7 +63,7 @@ export default {
     }
   },
   methods: {
-    addArticle () {
+    addArticle() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) {
           return this.$message.error('请填写必要的信息')
@@ -75,4 +85,10 @@ export default {
 .el-button {
   margin-left: 50px;
 }
+
+/* 调整markdown编辑器的高度 */
+textarea {
+  height: 300px;
+}
+
 </style>

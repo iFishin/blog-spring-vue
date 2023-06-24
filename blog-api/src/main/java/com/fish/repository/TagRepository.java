@@ -12,7 +12,6 @@ import com.fish.repository.wrapper.TagWrapper;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 public interface TagRepository extends JpaRepository<Tag, Integer>, TagWrapper {
 

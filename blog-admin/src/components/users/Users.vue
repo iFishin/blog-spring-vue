@@ -1,8 +1,8 @@
 <!--
  * @Date: 2023-06-23 10:21:51
  * @LastEditors: Fishing yoo725@hotmail.com
- * @LastEditTime: 2023-06-23 11:12:57
- * @FilePath: \BlogAdmin\src\components\users\Users.vue
+ * @LastEditTime: 2023-06-24 21:21:06
+ * @FilePath: \blog-admin\src\components\users\Users.vue
  * @Description: https://github.com/iFishin
 -->
 <template>
@@ -118,9 +118,11 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
+      token: null,
       userList: [], // 用户列表
       total: 0, // 总数
       queryInfo: { // 查询条件
@@ -162,24 +164,28 @@ export default {
       isAdmin: false // 是否为管理员
     }
   },
-  mounted() {
+  created() {
+    this.token = window.sessionStorage.getItem('token')
     // 获取用户列表
     this.getUserList()
   },
   methods: {
+    //用户列表
     async getUserList() {
       try {
-        const res = await this.axios.get('/users', {
-          params: { ...this.queryInfo }
+        const res = await this.$http.get('/users',{
+          headers: {
+            "Oauth-Token": `${this.token}`
+          }
         })
-        if (res.code === 200) {
-          this.userList = res.data.list
-          this.total = res.data.total
+        if (res.code === 0) {
+          console.log("ifishin")
+          // this.userList = res.data
+          this.total = res.data.length
         } else {
           this.message.error(res.msg)
         }
       } catch (error) {
-        console.log(error)
         this.message.error('获取用户列表失败')
       }
     },

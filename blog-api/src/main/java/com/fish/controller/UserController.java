@@ -31,7 +31,6 @@ import com.fish.service.UserService;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @RestController
 @RequestMapping(value = "/users")
