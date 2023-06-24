@@ -3,6 +3,8 @@ package com.fish.controller;
 import java.util.List;
 
 import com.fish.common.annotation.LogAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +26,10 @@ import com.fish.vo.CategoryVO;
  * 文章分类api
  *
  * @author fish
- * <p>
- * 2018年1月25日
+
  */
 @RestController
+@Api(tags = "文章分类接口",description = "用于查询文章分类表的api接口")
 @RequestMapping(value = "/categorys")
 public class CategoryController {
 
@@ -37,6 +39,7 @@ public class CategoryController {
 
     @GetMapping
     @LogAnnotation(module = "文章分类", operation = "获取所有文章分类")
+    @ApiOperation(value = "获取所有文章分类")
     public Result listCategorys() {
         List<Category> categorys = categoryService.findAll();
 
@@ -45,6 +48,7 @@ public class CategoryController {
 
     @GetMapping("detail")
     @LogAnnotation(module = "文章分类", operation = "获取所有文章分类，详细")
+    @ApiOperation(value = "获取详细的所有文章分类")
     public Result listCategorysDetail() {
         List<CategoryVO> categorys = categoryService.findAllDetail();
 
@@ -53,6 +57,7 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     @LogAnnotation(module = "文章分类", operation = "根据id获取文章分类")
+    @ApiOperation(value = "根据id获取文章分类")
     public Result getCategoryById(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -71,6 +76,7 @@ public class CategoryController {
 
     @GetMapping("/detail/{id}")
     @LogAnnotation(module = "文章分类", operation = "根据id获取详细文章分类，文章数")
+    @ApiOperation(value = "根据id获取详细的所有文章分类,文章数")
     public Result getCategoryDetail(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -90,6 +96,7 @@ public class CategoryController {
     @PostMapping("/create")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "文章分类", operation = "添加文章分类")
+    @ApiOperation(value = "添加文章分类")
     public Result saveCategory(@Validated @RequestBody Category category) {
 
         Integer categoryId = categoryService.saveCategory(category);
@@ -102,6 +109,7 @@ public class CategoryController {
     @PostMapping("/update")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "文章分类", operation = "修改文章分类")
+    @ApiOperation(value = "修改文章分类")
     public Result updateCategory(@RequestBody Category category) {
         Result r = new Result();
 
@@ -120,6 +128,7 @@ public class CategoryController {
     @GetMapping("/delete/{id}")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "文章分类", operation = "删除文章分类")
+    @ApiOperation(value = "删除文章分类")
     public Result deleteCategoryById(@PathVariable("id") Integer id) {
         Result r = new Result();
 

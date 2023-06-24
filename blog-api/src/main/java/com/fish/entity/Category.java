@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 文章分类
@@ -16,6 +17,7 @@ import com.fish.common.entity.BaseEntity;
  */
 @Entity
 @Table(name = "me_category")
+@ApiIgnore
 public class Category extends BaseEntity<Integer> {
 
     /**

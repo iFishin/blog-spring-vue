@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 文章内容
@@ -19,6 +20,7 @@ import com.fish.common.entity.BaseEntity;
  */
 @Entity
 @Table(name = "me_article_body")
+@ApiIgnore
 public class ArticleBody extends BaseEntity<Long> {
 
     /**

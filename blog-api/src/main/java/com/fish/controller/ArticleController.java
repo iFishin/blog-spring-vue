@@ -5,6 +5,8 @@ import java.util.List;
 import com.fish.common.annotation.LogAnnotation;
 import com.fish.vo.ArticleVo;
 import com.fish.vo.PageVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,9 @@ import com.fish.service.TagService;
  *
  * @author fish
  * <p>
- * 2018年1月25日
  */
 @RestController
+@Api(tags = "文章接口",description = "用于测试文章的api接口")
 @RequestMapping(value = "/articles")
 public class ArticleController {
 
@@ -53,6 +55,7 @@ public class ArticleController {
                     @FastJsonFilter(clazz = Tag.class, props = {"id", "avatar"})},
             include = {@FastJsonFilter(clazz = User.class, props = {"nickname"})})
     @LogAnnotation(module = "文章", operation = "获取所有文章")
+    @ApiOperation(value = "获取所有文章接口")
     public Result listArticles(ArticleVo article, PageVo page) {
         System.out.println(article);
         System.out.println(page);
@@ -63,6 +66,7 @@ public class ArticleController {
     @GetMapping("/hot")
     @FastJsonView(include = {@FastJsonFilter(clazz = Article.class, props = {"id", "title"})})
     @LogAnnotation(module = "文章", operation = "获取最热文章")
+    @ApiOperation(value = "获取最热文章接口")
     public Result listHotArticles() {
         int limit = 6;
         List<Article> articles = articleService.listHotArticles(limit);
@@ -73,6 +77,7 @@ public class ArticleController {
     @GetMapping("/new")
     @FastJsonView(include = {@FastJsonFilter(clazz = Article.class, props = {"id", "title"})})
     @LogAnnotation(module = "文章", operation = "获取最新文章")
+    @ApiOperation(value = "获取最新文章接口")
     public Result listNewArticles() {
         int limit = 6;
         List<Article> articles = articleService.listNewArticles(limit);
@@ -87,6 +92,7 @@ public class ArticleController {
                     @FastJsonFilter(clazz = Article.class, props = {"comments"}),
                     @FastJsonFilter(clazz = ArticleBody.class, props = {"contentHtml"})})
     @LogAnnotation(module = "文章", operation = "根据id获取文章")
+    @ApiOperation(value = "根据ID获取所有文章接口")
     public Result getArticleById(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -111,6 +117,7 @@ public class ArticleController {
                     @FastJsonFilter(clazz = Tag.class, props = {"avatar"})},
             include = {@FastJsonFilter(clazz = User.class, props = {"id", "nickname", "avatar"})})
     @LogAnnotation(module = "文章", operation = "根据id获取文章，添加阅读数")
+    @ApiOperation(value = "根据id获取文章，添加阅读数")
     public Result getArticleAndAddViews(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -134,6 +141,7 @@ public class ArticleController {
                     @FastJsonFilter(clazz = Tag.class, props = {"id", "avatar"})},
             include = {@FastJsonFilter(clazz = User.class, props = {"nickname"})})
     @LogAnnotation(module = "文章", operation = "根据标签获取文章")
+    @ApiOperation(value = "根据标签获取文章")
     public Result listArticlesByTag(@PathVariable Integer id) {
         List<Article> articles = articleService.listArticlesByTag(id);
 
@@ -148,6 +156,7 @@ public class ArticleController {
                     @FastJsonFilter(clazz = Tag.class, props = {"id", "avatar"})},
             include = {@FastJsonFilter(clazz = User.class, props = {"nickname"})})
     @LogAnnotation(module = "文章", operation = "根据分类获取文章")
+    @ApiOperation(value = "根据分类获取文章")
     public Result listArticlesByCategory(@PathVariable Integer id) {
         List<Article> articles = articleService.listArticlesByCategory(id);
 
@@ -157,6 +166,7 @@ public class ArticleController {
     @PostMapping("/publish")
     @RequiresAuthentication
     @LogAnnotation(module = "文章", operation = "发布文章")
+    @ApiOperation(value = "发布文章")
     public Result saveArticle(@Validated @RequestBody Article article) {
 
         Integer articleId = articleService.publishArticle(article);
@@ -169,6 +179,7 @@ public class ArticleController {
     @PostMapping("/update")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "文章", operation = "修改文章")
+    @ApiOperation(value = "修改文章")
     public Result updateArticle(@RequestBody Article article) {
         Result r = new Result();
 
@@ -187,6 +198,7 @@ public class ArticleController {
     @GetMapping("/delete/{id}")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "文章", operation = "删除文章")
+    @ApiOperation(value = "删除文章")
     public Result deleteArticleById(@PathVariable("id") Integer id) {
         Result r = new Result();
 
@@ -203,6 +215,7 @@ public class ArticleController {
 
     @GetMapping("/listArchives")
     @LogAnnotation(module = "文章", operation = "获取文章归档日期")
+    @ApiOperation(value = "获取文章归档日期")
     public Result listArchives() {
         return Result.success(articleService.listArchives());
     }

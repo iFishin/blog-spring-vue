@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import com.fish.common.annotation.LogAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import com.fish.common.constant.ResultCode;
 import com.fish.common.result.Result;
 
 @RestController
+@Api(tags = "文件上传接口",description = "文件上传的api接口")
 public class UploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
@@ -32,6 +35,7 @@ public class UploadController {
     @PostMapping("/upload")
     @RequiresAuthentication
     @LogAnnotation(module = "文件上传", operation = "文件上传")
+    @ApiOperation(value = "文件上传")
     public Result upload(HttpServletRequest request, MultipartFile image) {
 
         Result r = new Result();

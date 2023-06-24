@@ -14,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 用户
@@ -24,6 +25,7 @@ import com.fish.common.entity.BaseEntity;
  */
 @Entity
 @Table(name = "sys_user")
+@ApiIgnore
 public class User extends BaseEntity<Long> {
 
     /**

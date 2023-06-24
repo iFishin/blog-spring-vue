@@ -1,6 +1,7 @@
 package com.fish.entity;
 
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "sys_log")
+@ApiIgnore
 public class Log extends BaseEntity<Integer> {
 
     @Column(name = "userid")
