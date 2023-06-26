@@ -2,6 +2,7 @@ package com.fish.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import antlr.collections.impl.LList;
 import com.fish.common.annotation.LogAnnotation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -22,6 +23,8 @@ import com.fish.common.result.Result;
 import com.fish.entity.User;
 import com.fish.oauth.OAuthSessionManager;
 import com.fish.service.UserService;
+
+import java.util.List;
 
 /**
  * 登录

@@ -21,6 +21,7 @@ body {
 	font-weight: 400;
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 	line-height: 1.5;
+  min-width: 1200px;
 }
 a {
     cursor: pointer;

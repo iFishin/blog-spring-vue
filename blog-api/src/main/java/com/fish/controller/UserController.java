@@ -47,19 +47,19 @@ public class UserController {
         return Result.success(users);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{account}")
     @LogAnnotation(module = "用户", operation = "根据id获取用户")
     @RequiresRoles(Base.ROLE_ADMIN)
-    public Result getUserById(@PathVariable("id") Long id) {
+    public Result getUserById(@PathVariable("account") String account) {
 
         Result r = new Result();
 
-        if (null == id) {
+        if (null == account) {
             r.setResultCode(ResultCode.PARAM_IS_BLANK);
             return r;
         }
 
-        User user = userService.getUserById(id);
+        User user = userService.getUserByAccount(account);
 
         r.setResultCode(ResultCode.SUCCESS);
         r.setData(user);
@@ -96,10 +96,10 @@ public class UserController {
     @PostMapping("/update")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "用户", operation = "修改用户")
-    public Result updateUser(@RequestBody User user) {
+    public Result updateUser(@RequestBody  User user) {
+        System.out.println(user);
         Result r = new Result();
-
-        if (null == user.getId()) {
+        if (user.getId() == null) {
             r.setResultCode(ResultCode.USER_NOT_EXIST);
             return r;
         }
@@ -108,13 +108,14 @@ public class UserController {
 
         r.setResultCode(ResultCode.SUCCESS);
         r.simple().put("userId", userId);
-        return r;
+        return null;
     }
 
     @GetMapping("/delete/{id}")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "用户", operation = "删除用户")
     public Result deleteUserById(@PathVariable("id") Long id) {
+        System.out.println(id);
         Result r = new Result();
 
         if (null == id) {

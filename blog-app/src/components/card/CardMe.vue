@@ -1,7 +1,7 @@
 <!--
  * @Date: 2023-06-22 10:17:02
  * @LastEditors: Fishing yoo725@hotmail.com
- * @LastEditTime: 2023-06-23 08:51:41
+ * @LastEditTime: 2023-06-22 20:50:33
  * @FilePath: \blog-app\src\components\card\CardMe.vue
  * @Description: https://github.com/iFishin
 -->
@@ -35,15 +35,13 @@ export default {
     }
   },
   methods: {
-    // http://wpa.qq.com/msgrd?v=3&uin=QQ号码&site=qq&menu=yes
     showTool(tool) {
       this.$message({
         duration: 0,
         showClose: true,
         dangerouslyUseHTMLString: true,
-        message: '<strong>' + tool.message + '</strong>',
+        message: '<strong>' + tool.message + '</strong>'
       });
-      window.open('http://wpa.qq.com/msgrd?v=3&uin=' + qq.message + '&Site=qq&Menu=yes', '_blank');
     },
     goToGithub() {
       window.open(this.github.url, '_blank');
