@@ -1,13 +1,13 @@
 <!--
  * @Date: 2023-06-22 10:17:02
  * @LastEditors: Fishing yoo725@hotmail.com
- * @LastEditTime: 2023-06-22 20:50:33
+ * @LastEditTime: 2023-06-26 17:23:24
  * @FilePath: \blog-app\src\components\card\CardMe.vue
  * @Description: https://github.com/iFishin
 -->
 <template>
   <el-card>
-    <h1 class="me-author-name">Fish</h1>
+    <h1 class="me-author-name">{{ this.account }}</h1>
     <div class="me-author-description">
       <span><i class="el-icon-location-outline"></i> &nbsp;广西#柳州</span>
       <span><i class="me-icon-job"></i> &nbsp;🎣</span>
@@ -24,6 +24,7 @@
 export default {
   data() {
     return {
+      account: '',
       qq: {
         title: 'QQ',
         message: '2079797279'
@@ -33,6 +34,9 @@ export default {
         url: 'https://github.com/ifishin'
       }
     }
+  },
+  mounted() {
+    this.account = window.sessionStorage.getItem('userForm.account')
   },
   methods: {
     showTool(tool) {

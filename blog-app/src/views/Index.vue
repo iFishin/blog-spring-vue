@@ -1,3 +1,10 @@
+<!--
+ * @Date: 2023-06-26 15:50:57
+ * @LastEditors: Fishing yoo725@hotmail.com
+ * @LastEditTime: 2023-06-26 19:00:17
+ * @FilePath: \blog-app\src\views\Index.vue
+ * @Description: https://github.com/iFishin
+-->
 <template>
   <div v-title data-title="ForFun Find Yourself">
     <el-container>
