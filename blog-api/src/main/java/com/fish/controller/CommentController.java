@@ -3,6 +3,8 @@ package com.fish.controller;
 import java.util.List;
 
 import com.fish.common.annotation.LogAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -25,11 +27,11 @@ import com.fish.service.CommentService;
  * 评论api
  *
  * @author fish
- * <p>
- * 2018年1月25日
+
  */
 @RestController
 @RequestMapping(value = "/comments")
+@Api(tags = "文章评论接口",description = "用于文章评论的api接口")
 public class CommentController {
 
 
@@ -38,6 +40,7 @@ public class CommentController {
 
     @GetMapping
     @LogAnnotation(module = "评论", operation = "获取所有评论")
+    @ApiOperation(value = "获取所有评论")
     public Result listComments() {
         List<Comment> comments = commentService.findAll();
 
@@ -46,6 +49,7 @@ public class CommentController {
 
     @GetMapping("/{id}")
     @LogAnnotation(module = "评论", operation = "根据id获取评论")
+    @ApiOperation(value = "根据id获取评论")
     public Result getCommentById(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -68,6 +72,7 @@ public class CommentController {
                     @FastJsonFilter(clazz = Comment.class, props = {"article", "parent"})},
             include = {@FastJsonFilter(clazz = User.class, props = {"id", "nickname", "avatar"})})
     @LogAnnotation(module = "评论", operation = "根据文章获取评论")
+    @ApiOperation(value = "根据文章获取评论")
     public Result listCommentsByArticle(@PathVariable("id") Integer id) {
 
         Result r = new Result();
@@ -88,6 +93,7 @@ public class CommentController {
     @PostMapping("/create")
     @RequiresAuthentication
     @LogAnnotation(module = "评论", operation = "添加评论")
+    @ApiOperation(value = "添加评论")
     public Result saveComment(@Validated @RequestBody Comment comment) {
 
         Integer commentId = commentService.saveComment(comment);
@@ -101,6 +107,7 @@ public class CommentController {
     @GetMapping("/delete/{id}")
     @RequiresAuthentication
     @LogAnnotation(module = "评论", operation = "删除评论")
+    @ApiOperation(value = "删除评论")
     public Result deleteCommentById(@PathVariable("id") Integer id) {
         Result r = new Result();
 
@@ -122,6 +129,7 @@ public class CommentController {
             include = {@FastJsonFilter(clazz = User.class, props = {"id", "nickname", "avatar"})})
     @RequiresAuthentication
     @LogAnnotation(module = "评论", operation = "添加评论，增加评论数")
+    @ApiOperation(value = "添加评论，增加评论数")
     public Result saveCommentAndChangeCounts(@RequestBody Comment comment) {
 
         Comment savedComment = commentService.saveCommentAndChangeCounts(comment);
@@ -134,6 +142,7 @@ public class CommentController {
     @GetMapping("/delete/change/{id}")
     @RequiresAuthentication
     @LogAnnotation(module = "评论", operation = "删除评论，减少评论数")
+    @ApiOperation(value = "删除评论，减少评论数")
     public Result deleteCommentByIdAndChangeCounts(@PathVariable("id") Integer id) {
         Result r = new Result();
 

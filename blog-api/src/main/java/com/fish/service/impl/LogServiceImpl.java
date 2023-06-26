@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 /**
  * @author fish
  * <p>
- * 2018年4月18日
  */
 @Service
 public class LogServiceImpl implements LogService {

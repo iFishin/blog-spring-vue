@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.alibaba.fastjson.support.spring.annotation.FastJsonFilter;
 import com.alibaba.fastjson.support.spring.annotation.FastJsonView;
 import com.fish.common.annotation.LogAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -29,10 +31,10 @@ import com.fish.service.UserService;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @RestController
 @RequestMapping(value = "/users")
+@Api(tags = "用户查询接口",description = "用于查询用户信息的api接口")
 public class UserController {
 
     @Autowired
@@ -40,6 +42,7 @@ public class UserController {
 
     @GetMapping
     @LogAnnotation(module = "用户", operation = "获取所有用户")
+    @ApiOperation(value = "获取所有用户")
     @RequiresRoles(Base.ROLE_ADMIN)
     public Result listUsers() {
         List<User> users = userService.findAll();
@@ -49,6 +52,7 @@ public class UserController {
 
     @GetMapping("/{account}")
     @LogAnnotation(module = "用户", operation = "根据id获取用户")
+    @ApiOperation(value = "根据id获取用户")
     @RequiresRoles(Base.ROLE_ADMIN)
     public Result getUserById(@PathVariable("account") String account) {
 
@@ -70,6 +74,7 @@ public class UserController {
     @FastJsonView(
             include = {@FastJsonFilter(clazz = User.class, props = {"id", "account", "nickname", "avatar"})})
     @LogAnnotation(module = "用户", operation = "获取当前登录用户")
+    @ApiOperation(value = "获取当前登录用户")
     public Result getCurrentUser(HttpServletRequest request) {
 
         Result r = new Result();
@@ -84,6 +89,7 @@ public class UserController {
     @PostMapping("/create")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "用户", operation = "添加用户")
+    @ApiOperation(value = "添加用户")
     public Result saveUser(@Validated @RequestBody User user) {
 
         Long userId = userService.saveUser(user);
@@ -96,8 +102,8 @@ public class UserController {
     @PostMapping("/update")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "用户", operation = "修改用户")
-    public Result updateUser(@RequestBody  User user) {
-        System.out.println(user);
+    @ApiOperation(value = "修改用户")
+    public Result updateUser(@RequestBody User user) {
         Result r = new Result();
         if (user.getId() == null) {
             r.setResultCode(ResultCode.USER_NOT_EXIST);
@@ -114,6 +120,7 @@ public class UserController {
     @GetMapping("/delete/{id}")
     @RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "用户", operation = "删除用户")
+    @ApiOperation(value = "删除用户")
     public Result deleteUserById(@PathVariable("id") Long id) {
         System.out.println(id);
         Result r = new Result();

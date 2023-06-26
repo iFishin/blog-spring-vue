@@ -42,7 +42,7 @@
             </el-submenu>
             <el-menu-item index="/setting">
               <i class="el-icon-s-tools"></i>
-              <span>网站配置</span>
+              <span>操作记录</span>
             </el-menu-item>
           </el-menu>
         </el-aside>

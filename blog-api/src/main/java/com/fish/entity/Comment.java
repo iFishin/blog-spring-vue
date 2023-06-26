@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 评论
@@ -21,6 +22,7 @@ import com.fish.common.entity.BaseEntity;
  */
 @Entity
 @Table(name = "me_comment")
+@ApiIgnore
 public class Comment extends BaseEntity<Integer> {
 
     private static final long serialVersionUID = 7346271954336613146L;

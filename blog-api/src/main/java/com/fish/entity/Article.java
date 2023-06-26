@@ -21,16 +21,17 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fish.common.entity.BaseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 文章
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @Entity
 @Table(name = "me_article")
+@ApiIgnore
 public class Article extends BaseEntity<Integer> {
 
     public static final int Article_TOP = 1;

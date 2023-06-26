@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import antlr.collections.impl.LList;
 import com.fish.common.annotation.LogAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -30,10 +32,10 @@ import java.util.List;
  * 登录
  *
  * @author fish
- * <p>
- * 2018年1月23日
+
  */
 @RestController
+@Api(tags = "登录接口",description = "用于验证登录注册的api接口")
 public class LoginController {
 
     @Autowired
@@ -41,6 +43,7 @@ public class LoginController {
 
     @PostMapping("/login")
     @LogAnnotation(module = "登录", operation = "登录")
+    @ApiOperation(value = "登录")
     public Result login(@RequestBody User user) {
         Result r = new Result();
         executeLogin(user.getAccount(), user.getPassword(), r);
@@ -50,6 +53,7 @@ public class LoginController {
     @PostMapping("/register")
     //@RequiresRoles(Base.ROLE_ADMIN)
     @LogAnnotation(module = "注册", operation = "注册")
+    @ApiOperation(value = "注册")
     public Result register(@RequestBody User user) {
 
         Result r = new Result();
@@ -72,7 +76,6 @@ public class LoginController {
         }
         return r;
     }
-
 
     private void executeLogin(String account, String password, Result r) {
         Subject subject = SecurityUtils.getSubject();
@@ -99,6 +102,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/handleLogin")
+    @ApiOperation(value = "超时登录接口")
     public Result handleLogin(HttpServletRequest request) {
         String id = request.getHeader(OAuthSessionManager.OAUTH_TOKEN);
         System.out.println("超时登录。。。:" + id);
@@ -108,6 +112,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     @LogAnnotation(module = "退出", operation = "退出")
+    @ApiOperation(value = "退出登录接口")
     public Result logout() {
 
         Result r = new Result();
