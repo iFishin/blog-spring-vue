@@ -13,15 +13,9 @@
           <el-button type="primary" @click="showAddDialog">添加标签</el-button>
         </el-col>
 
-        <!-- <el-col :span="8">
-          <el-input v-model="queryInfo.keyword" placeholder="请输入id" class="input-with-select" clearable
-            @clear="searchTagList">
-            <el-button @click="searchTagList" slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </el-col> -->
       </el-row>
       <!-- 用户列表区 -->
-      <el-table :data="tagList" border stripe>
+      <el-table :data="getPageData()" border stripe>
         <el-table-column label="id" prop="id"></el-table-column>
         <el-table-column label="类别" prop="tagname"></el-table-column>
         <el-table-column label="描述" prop="avatar"></el-table-column>
@@ -136,6 +130,10 @@ export default {
       this.queryInfo.pageSize = val
       this.getTagList()
     },
+    getPageData() {
+      const start = (this.queryInfo.pageIndex - 1) * this.queryInfo.pageSize;
+      return this.tagList.slice(start, start + this.queryInfo.pageSize);
+    },
     // 显示添加对话框
     showAddDialog() {
       this.addDialogVisible = true
@@ -198,7 +196,7 @@ export default {
       console.log(tagId)
       const confirmResult = await this.$confirm('是否确定删除该标签？', '提示')
       if (confirmResult !== 'confirm') return
-      const { data: res } = await this.$http.get(`/tags/delete/${tagId}`,{
+      const { data: res } = await this.$http.get(`/tags/delete/${tagId}`, {
         headers: {
           "Oauth-Token": `${this.token}`
         }

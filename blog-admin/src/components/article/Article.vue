@@ -7,57 +7,73 @@
     </el-breadcrumb>
     <!-- 卡片视图 -->
     <el-card>
-      <!-- 输入框 -->
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <el-button type="primary" @click="goAddpage">添加文章</el-button>
-        </el-col>
-        <el-col :span="8">
-          <el-input
-            v-model="queryInfo.keyword"
-            placeholder="请输入内容"
-            class="input-with-select"
-            clearable
-            @clear="getArticleList">
-            <el-button @click="getArticleList" slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </el-col>
-      </el-row>
-      <el-table :data="articleList" border stripe>
-        <el-table-column type="index"></el-table-column>
-        <el-table-column label="标题" prop="headline"></el-table-column>
-        <el-table-column label="作者" prop="tag_id"></el-table-column>
-        <el-table-column label="标签" prop="tag_id"></el-table-column>
-        <el-table-column label="状态" prop="status">
+      <!-- </el-row> -->
+      <el-table :data="getPageData()" border stripe>
+        <el-table-column label="id" prop="id" type="index"></el-table-column>
+        <el-table-column label="标题" prop="title"></el-table-column>
+        <el-table-column label="作者" prop="author.nickname"></el-table-column>
+        <el-table-column label="标签">
           <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.status === '1'">未锁定</el-tag>
-            <el-tag type="danger" v-else-if="scope.row.status === '0'">锁定</el-tag>
+            <div v-for="(tag, index) in scope.row.tags" :key="index"
+              :style="{ backgroundColor: '#f2f2f2', padding: '5px', margin: '5px', display: 'inline-block', borderRadius: '5px' }">
+              {{ tag.tagname }}
+            </div>
           </template>
-        </el-table-column>
+        </el-table-column><el-table-column label="访问量" prop="viewCounts"></el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
-            <el-button size="mini" type="danger" icon="el-icon-delete" @click="removeUserById(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" icon="el-icon-delete" @click="removeArticle(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pageIndex"
-        :page-sizes="[5, 10, 20, 50]"
-        :page-size="queryInfo.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page="queryInfo.pageIndex" :page-sizes="[5, 10, 20, 50]" :page-size="queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
+
+    <!-- 添加/编辑文章弹窗 -->
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
+      <el-form :model="formData" label-width="80px">
+        <el-form-item label="标题">
+          <el-input v-model="formData.title" placeholder="请输入标题"></el-input>
+        </el-form-item>
+        <el-form-item label="作者">
+          <el-input v-model="formData.author" placeholder="请输入作者"></el-input>
+        </el-form-item>
+        <el-form-item label="标签">
+          <el-select v-model="formData.tags" multiple placeholder="请选择标签">
+            <el-option v-for="(tag, index) in tagList" :key="index" :label="tag.tagname" :value="tag.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="摘要">
+          <el-input v-model="formData.summary" placeholder="请输入摘要"></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <quill-editor v-model="formData.content"></quill-editor>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 export default {
-  data () {
+  components: {
+    quillEditor
+  },
+  data() {
     return {
       queryInfo: {
         keyword: '',
@@ -65,32 +81,55 @@ export default {
         pageSize: 5
       },
       total: 0,
-      articleList: []
+      articleList: [],
+      dialogTitle: '',
+      dialogVisible: false,
+      formData: {
+        id: null,
+        title: '',
+        author: '',
+        tags: [],
+        content: ''
+      },
+      tagList: [],
     }
   },
-  created () {
+  created() {
+    this.token = window.sessionStorage.getItem('token')
     this.getArticleList()
+    this.getTagList()
   },
   methods: {
     // 获取文章信息
-    async getArticleList () {
-      const { data: res } = await this.$http.get('article', { params: this.queryInfo })
-      if (res.status !== 200) return this.$message.error('用户列表获取失败')
-      this.articleList = res.data.data
-      this.total = res.data.totalCount
+    async getArticleList() {
+      const { data: res } = await this.$http.get(`/articles`)
+      if (res.code !== 0) return this.message.error('文章列表获取失败')
+      this.articleList = res.data
+      console.log(this.articleList)
+      this.total = res.data.length
+    },
+    // 获取标签列表
+    async getTagList() {
+      const { data: res } = await this.$http.get(`/tags`)
+      if (res.code !== 0) return this.message.error('标签列表获取失败')
+      this.tagList = res.data
     },
     // 监听页码的变化
-    handleSizeChange (newSize) {
+    handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
       this.getArticleList()
     },
     // 监听页码值的变化
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.queryInfo.pageIndex = newPage
       this.getArticleList()
     },
-    async removeUserById (id) {
-      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+    getPageData() {
+      const start = (this.queryInfo.pageIndex - 1) * this.queryInfo.pageSize;
+      return this.articleList.slice(start, start + this.queryInfo.pageSize);
+    },
+    async removeArticle(id) {
+      const confirmResult = await this.confirm('此操作将永久删除该文章, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -98,25 +137,64 @@ export default {
         return err
       })
       if (confirmResult !== 'confirm') {
-        this.$message.info('已取消')
+        this.message.info('已取消')
         return
       }
-      const { data: res } = await this.$http.delete('article/' + id)
-      if (res.status !== 200) {
-        this.$message.error('删除文章失败')
+      const { data: res } = await this.http.delete(`/articles/{id}`)
+      if (res.code !== 0) {
+        this.message.error('删除文章失败')
       }
-      this.$message.success('删除文章成功')
+      this.message.success('删除文章成功')
       this.getArticleList()
     },
-    // 添加文章页面
-    goAddpage () {
-      this.$router.push('article/add')
+    // 打开添加文章弹窗
+    handleAdd() {
+      this.dialogTitle = '添加文章'
+      this.dialogVisible = true
+      this.formData = {
+        id: null,
+        title: '',
+        author: '',
+        tags: [],
+        content: ''
+      }
+    },
+    // 打开编辑文章弹窗
+    handleEdit(row) {
+      this.dialogTitle = '编辑文章'
+      this.dialogVisible = true
+      this.formData = {
+        id: row.id,
+        title: row.title,
+        author: row.author.nickname,
+        tags: row.tags.map(tag => tag.id), // 修改此行
+        summary: row.summary,
+        content: row.content
+      }
+    },
+
+    // 编辑文章处理
+    async handleSubmit() {
+      try {
+        const { data: res } = await this.$http.put(`/articles/update/${this.formData.id}`, this.formData)
+        if (res.code !== 0) return this.message.error('编辑文章失败')
+        this.message.success('编辑文章成功')
+        this.getArticleList()
+        this.dialogVisible = false
+      } catch (error) {
+        console.log(error)
+        this.message.error('编辑文章异常')
+      }
     }
+
+
   }
 }
 
 </script>
 
 <style lang='less' scoped>
-
+.dialog-footer {
+  text-align: center;
+}
 </style>

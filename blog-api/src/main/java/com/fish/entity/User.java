@@ -21,7 +21,6 @@ import springfox.documentation.annotations.ApiIgnore;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @Entity
 @Table(name = "sys_user")

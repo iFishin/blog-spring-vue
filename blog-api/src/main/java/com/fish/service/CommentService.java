@@ -7,7 +7,6 @@ import com.fish.entity.Comment;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 public interface CommentService {
 
