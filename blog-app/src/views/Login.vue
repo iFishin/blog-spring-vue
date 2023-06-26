@@ -54,6 +54,12 @@
         }
       }
     },
+    mounted(){
+      //检查是否存在保存的用户名和密码
+      if(sessionStorage.getItem('userForm.account')){
+        this.userForm.account = sessionStorage.getItem('userForm.account');
+      }
+    },  
     methods: {
       login(formName) {
         let that = this
@@ -62,7 +68,9 @@
           if (valid) {
 
             that.$store.dispatch('login', that.userForm).then(() => {
-              that.$router.go(-1)
+              this.saveCredientials();
+              that.$router.go(-1);
+              console.log(window.sessionStorage.getItem('userForm.account'));
             }).catch((error) => {
               if (error !== 'error') {
                 that.$message({message: error, type: 'error', showClose: true});
@@ -72,6 +80,10 @@
             return false;
           }
         });
+      },
+      saveCredientials(){
+        //保存账户
+        sessionStorage.setItem('userForm.account', this.userForm.password);
       }
     }
   }

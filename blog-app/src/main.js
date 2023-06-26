@@ -14,6 +14,11 @@ import '@/assets/icon/iconfont.css'
 
 import {formatTime} from "./utils/time";
 
+import axios from 'axios';
+
+//配置请求根路径
+axios.defaults.baseURL = 'http://localhost:8888'
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
