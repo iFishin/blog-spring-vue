@@ -5,7 +5,6 @@ package com.fish.common.constant;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public enum ResultCode {
 

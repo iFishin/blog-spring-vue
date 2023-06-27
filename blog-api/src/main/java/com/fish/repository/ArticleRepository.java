@@ -14,7 +14,6 @@ import com.fish.entity.Tag;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 public interface ArticleRepository extends JpaRepository<Article, Integer>, ArticleWrapper {
 

@@ -20,7 +20,6 @@ import com.fish.service.ArticleService;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {

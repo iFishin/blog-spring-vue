@@ -14,7 +14,6 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public class OAuthSessionManager extends DefaultWebSessionManager {
 

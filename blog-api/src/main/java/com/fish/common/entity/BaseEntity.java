@@ -11,7 +11,6 @@ import java.io.Serializable;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @MappedSuperclass
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {

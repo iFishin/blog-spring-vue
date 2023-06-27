@@ -8,7 +8,6 @@ import com.fish.repository.wrapper.CategoryWrapper;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 public interface CategoryRepository extends JpaRepository<Category, Integer>, CategoryWrapper {
 

@@ -26,7 +26,6 @@ import com.fish.common.result.Result;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

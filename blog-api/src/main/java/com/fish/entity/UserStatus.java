@@ -5,7 +5,6 @@ package com.fish.entity;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public enum UserStatus {
 

@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.ValueOperations;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public class RedisManager {
 

@@ -5,7 +5,6 @@ import com.fish.entity.Category;
 /**
  * @author fish
  * <p>
- * 2018年1月29日
  */
 public class CategoryVO extends Category {
 

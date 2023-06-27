@@ -15,7 +15,6 @@ import com.fish.service.UserService;
 /**
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @Service
 public class UserServiceImpl implements UserService {

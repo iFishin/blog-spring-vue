@@ -7,7 +7,6 @@ import java.lang.annotation.*;
  *
  * @author fish
  * <p>
- * 2018年4月18日
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

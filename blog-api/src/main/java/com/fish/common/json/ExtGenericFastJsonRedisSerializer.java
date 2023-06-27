@@ -11,7 +11,6 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 @Deprecated
 public class ExtGenericFastJsonRedisSerializer extends GenericFastJsonRedisSerializer {

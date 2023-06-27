@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author fish
  * <p>
- * 2018年4月18日
  */
 public class HttpContextUtils {
 

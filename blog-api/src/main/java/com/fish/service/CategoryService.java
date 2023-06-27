@@ -8,7 +8,6 @@ import com.fish.vo.CategoryVO;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 public interface CategoryService {
 

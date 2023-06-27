@@ -15,7 +15,6 @@ import com.fish.oauth.OAuthSessionManager;
  *
  * @author fish
  * <p>
- * 2018年1月30日
  */
 public class ClearTokenInteceptor extends HandlerInterceptorAdapter {
 

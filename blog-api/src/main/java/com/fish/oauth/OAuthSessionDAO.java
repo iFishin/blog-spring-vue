@@ -16,7 +16,6 @@ import com.fish.common.cache.RedisManager;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public class OAuthSessionDAO extends CachingSessionDAO implements InitializingBean {
 

@@ -5,7 +5,6 @@ package com.fish.common.exception;
  *
  * @author fish
  * <p>
- * 2018年1月23日
  */
 public class BaseException extends RuntimeException {
 

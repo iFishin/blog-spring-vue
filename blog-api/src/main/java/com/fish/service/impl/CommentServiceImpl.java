@@ -18,7 +18,6 @@ import com.fish.service.CommentService;
 /**
  * @author fish
  * <p>
- * 2018年1月25日
  */
 @Service
 public class CommentServiceImpl implements CommentService {

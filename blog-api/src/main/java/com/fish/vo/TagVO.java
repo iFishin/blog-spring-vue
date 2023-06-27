@@ -5,7 +5,6 @@ import com.fish.entity.Tag;
 /**
  * @author fish
  * <p>
- * 2018年1月29日
  */
 public class TagVO extends Tag {
 

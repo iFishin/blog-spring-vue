@@ -18,7 +18,6 @@ import springfox.documentation.annotations.ApiIgnore;
  *
  * @author fish
  * <p>
- * 2018年1月30日
  */
 @Entity
 @Table(name = "me_comment")
